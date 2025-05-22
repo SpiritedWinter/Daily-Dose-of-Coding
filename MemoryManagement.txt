@@ -1,0 +1,21 @@
+This articles about the composition of Java Memory Model (JMM)
+    1.Heap Memory:
+        ->Young Generation: 
+            This space is for newly created objects. 
+            It is subdivided into Eden space, where objects are initially allocated, 
+            and two survivor spaces (S0 and S1) for minor garbage collection processes. 
+            Most objects die young, hence frequent garbage collection occurs here.
+        ->Old Generation:
+            Objects that survive multiple garbage collection cycles in the young generation are promoted to the old generation.
+             This area is subject to major garbage collections and requires efficient management to optimize performance.
+        ->Permanent Generation:
+             the Permanent Generation (PermGen) is a part of the heap that was used to store metadata about the classes and methods used in the application. 
+             This includes:
+                ->Class Metadata: Information about the classes loaded by the JVM.
+                ->Method Metadata: Information about the methods of the classes.
+                ->Interned Strings: Strings that are interned using the String.intern() method.
+                ->Static Variables: Static variables of the classes.
+
+    2. Stack Memory:The stack stores local variables and method call information
+
+1. Read More

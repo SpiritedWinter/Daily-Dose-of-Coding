@@ -1,0 +1,11 @@
+Notes on  Coding 
+
+for example I have created an object
+
+x= new List<int>();
+then List<int>(); has created its memory in a heap and x is just a reference variable
+1. reference variables are stored in the stack memory and objects are stored in heap
+2. for example if
+    int a=10; //10 is an int object in a heap a
+    a = 20;// 10 object goes for garbage collection nad a points to object 20
+    
