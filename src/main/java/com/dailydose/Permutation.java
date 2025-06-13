@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Permutation {
     public static void main(String[] args) {
-
+        System.out.println(Permutations2(new int[]{1,1,2}));
         System.out.println(permutationIter("abc"));
     }
 
@@ -28,7 +28,7 @@ public class Permutation {
     }
 
     // now the function which takes in th  result array and returns it
-    public static ArrayList<String> permutations2(String mainStr,String resStr, ArrayList<String> result){
+    public static ArrayList<String> permutations(String mainStr,String resStr, ArrayList<String> result){
         if(mainStr.length()==0){
             result.add(resStr);
             return result;
@@ -37,7 +37,7 @@ public class Permutation {
         char ch=mainStr.charAt(0);
         for(int i=0;i<=resStr.length();i++){
             String newStr= resStr.substring(0, i)+ch+ resStr.substring(i);
-            permutations2(mainStr.substring(1), newStr,result);
+            permutations(mainStr.substring(1), newStr,result);
             
         }
 
@@ -64,5 +64,31 @@ public class Permutation {
             }
         }
         return result;
+    }
+
+
+    public static Queue<ArrayList<Integer>> Permutations2(int[] nums){
+        Queue<ArrayList<Integer>> result= new LinkedList<>();
+        ArrayList<Integer> prevRes=new ArrayList<>();
+        
+        result.add(new ArrayList<>());
+
+        for(int i=0; i<nums.length;i++){
+            Set<List<Integer>> used = new HashSet<>();
+            int n= result.size();
+            for(int j=0; j<n;j++){
+                ArrayList<Integer> popped= result.poll();
+                for(int k=0; k<=popped.size();k++){
+                    ArrayList<Integer> newres= new ArrayList<>(popped);
+                    
+                    newres.add(k,nums[i]);
+                    if(used.add(newres)){
+                        result.add(newres);
+                    }
+                }
+            }
+        }
+        return result;
+
     }
 }
