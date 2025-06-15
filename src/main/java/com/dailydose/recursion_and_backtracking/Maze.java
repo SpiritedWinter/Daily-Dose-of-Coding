@@ -1,4 +1,4 @@
-package com.dailydose;
+package com.dailydose.recursion_and_backtracking;
 
 import java.util.*;
 public class Maze {
@@ -8,7 +8,15 @@ public class Maze {
         // String path = "";
         // ArrayList<String> result=new ArrayList<>();
         // System.out.println(Paths(i,j,path,result));
-        System.out.println(solveNQueens(4));
+        int n=4;
+        String[][] board=new String[n][n];
+        for(int r=0; r<board.length; r++){
+            for(int c=0; c<board[0].length;c++){
+                board[r][c]=".";
+            }
+        }
+
+        System.out.println();
 
 
     }
@@ -210,5 +218,21 @@ public class Maze {
             }
         }
         return true;
+    }
+
+    private static int totalQueensHelper(String[][] board, int row){
+        if(row>= board.length){
+            return 1;
+        }
+        int count=0;
+        for(int col=0; col<board[0].length;col++){
+            if(isValidPos(board,row,col)){
+                board[row][col]="Q";
+                count+=totalQueensHelper(board, row+1);
+                board[row][col]=".";
+            }
+        }
+
+        return count;
     }
 }

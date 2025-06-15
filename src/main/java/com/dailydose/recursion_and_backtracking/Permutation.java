@@ -1,12 +1,14 @@
-package com.dailydose;
+package com.dailydose.recursion_and_backtracking;
 
 import java.util.*;
 import java.util.ArrayList;
 
 public class Permutation {
     public static void main(String[] args) {
-        System.out.println(Permutations2(new int[]{1,1,2}));
-        System.out.println(permutationIter("abc"));
+        List<String> result=new ArrayList<>();
+        validParenthesis(3,0,0,new StringBuilder(),result);
+        
+        System.out.println(result);
     }
 
     public static ArrayList<String> permutation(String mainStr, String res) {
@@ -91,4 +93,96 @@ public class Permutation {
         return result;
 
     }
+
+    public static void subset2(int[] nums,int i, ArrayList<Integer> curr,ArrayList<ArrayList<Integer>> result){
+        result.add(new ArrayList<>(curr));
+
+        for (int row = i; row < nums.length; row++) {
+            // Prune duplicates at the same level
+            if (row > i && nums[row] == nums[row - 1]) continue;
+    
+            curr.add(nums[row]);
+            subset2(nums, row + 1, curr, result);
+            curr.remove(curr.size() - 1); // backtrack
+        }
+    }
+
+    private static void subsetbt(int[] arr, int index,ArrayList<Integer> curr, ArrayList<ArrayList<Integer>> result){
+
+        result.add(new ArrayList<>(curr));
+
+        for(int i=index; i<arr.length;i++){
+
+            curr.add(arr[i]);
+            subsetbt(arr, i+1, curr, result);
+            curr.remove(curr.size()-1);
+        }
+
+
+
+    }
+
+    public static void stringPermutation(char[] input,int index,List<String> result){
+        if(index>=input.length){
+            result.add( new String(input));
+            return;
+        }
+        if (Character.isDigit(input[index])) {
+            stringPermutation(input, index + 1, result);
+            return;
+        }
+    
+        // Branch 1: Uppercase
+        input[index]^=32;
+        stringPermutation(input, index + 1, result);
+    
+        // Branch 2: Lowercase
+        input[index]^=32;
+        stringPermutation(input, index + 1, result);
+        
+    }
+
+    private static void validParenthesis(int n, int left,int right,StringBuilder str, List<String> result){
+        if(str.length()>=2*n){
+            if(isValidP(str.toString())){
+                result.add(str.toString());
+            }
+            
+            return;
+        }
+
+        if(left<n){
+            str.append('(');
+            validParenthesis(n, left+1, right, str, result);
+            str.deleteCharAt(str.length()-1);
+        }
+        if(right<left){
+            str.append(')');
+            validParenthesis(n, left, right+1, str, result);
+            str.deleteCharAt(str.length()-1);
+        }
+    }
+
+    private static boolean isValidP(String paran){
+        int balance=0;
+
+        for(int i=0;i<paran.length();i++){
+            if(paran.charAt(i)=='('){
+                balance++;
+            }
+            else{
+                balance--;
+            }
+            if(balance<0){
+                return false;
+            }
+        }
+        return balance==0;
+    }
+
+
+    
+
+
 }
+
