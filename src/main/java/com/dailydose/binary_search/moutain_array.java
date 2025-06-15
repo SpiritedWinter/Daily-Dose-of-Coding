@@ -1,5 +1,7 @@
 package com.dailydose.binary_search;
 
+import java.util.*;
+
 public class moutain_array {
     public static void main(String[] args){
 
@@ -81,4 +83,23 @@ public class moutain_array {
 
     }
 
+
+    public static void meadianSortedArrays(int[] nums1, int[] nums2){
+
+        //[1,3,6]   [2,4,5]
+        //[1,2,3,4,5,6];
+        // length of arr1 + length of arr2/2;
+        // (3+4)/2 => 3.5
+        // 3.5 is the answer
+        // i pointer for nums 1
+        // j pointer for nums 2
+        //
+
+        // lets take an example of  [1,3,6,12,15] [2,5,9,20]
+        //  in this example if we just place first four places correctly then we would get our mediam
+        // its somewhat related to the length of two array
+        // we take 
+
+    }
 }
+
