@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Search Patterns - Visual Guide</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/vs2015.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/java.min.js"></script>
+    <style>
+        :root {
+            --vscode-bg: #1e1e1e;
+            --vscode-text: #d4d4d4;
+            --vscode-blue: #569cd6;
+            --vscode-green: #6a9955;
+            --vscode-yellow: #dcdcaa;
+            --vscode-red: #f14c4c;
+            --vscode-purple: #c586c0;
+            --vscode-gray: #808080;
+            --vscode-orange: #ce9178;
+            --vscode-border: #333333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Consolas', 'Courier New', monospace;
+            line-height: 1.6;
+            color: var(--vscode-text);
+            background: var(--vscode-bg);
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: var(--vscode-blue);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        h2 {
+            color: var(--vscode-purple);
+            margin: 30px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--vscode-border);
+        }
+
+        h3 {
+            color: var(--vscode-yellow);
+            margin: 20px 0 10px;
+        }
+
+        .section {
+            background: #252526;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: 1px solid var(--vscode-border);
+        }
+
+        .important-note {
+            background: #2d2d2d;
+            border-left: 4px solid var(--vscode-yellow);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .warning-note {
+            background: #2d2d2d;
+            border-left: 4px solid var(--vscode-red);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .success-note {
+            background: #2d2d2d;
+            border-left: 4px solid var(--vscode-green);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .pattern-box {
+            background: #2d2d2d;
+            border: 1px solid var(--vscode-blue);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+
+        .complexity {
+            background: #2d2d2d;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-family: 'Consolas', monospace;
+            border: 1px solid var(--vscode-border);
+        }
+
+        .visual-example {
+            background: #2d2d2d;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: 'Consolas', monospace;
+            border: 1px solid var(--vscode-border);
+        }
+
+        pre {
+            background: #1e1e1e !important;
+            border-radius: 8px;
+            padding: 15px !important;
+            margin: 15px 0;
+            border: 1px solid var(--vscode-border);
+            position: relative;
+        }
+
+        pre code {
+            font-family: 'Consolas', 'Courier New', monospace !important;
+            font-size: 14px !important;
+            line-height: 1.5 !important;
+        }
+
+        .highlight {
+            background: rgba(86, 156, 214, 0.1);
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+
+        li {
+            margin: 8px 0;
+            position: relative;
+        }
+
+        li:before {
+            content: "•";
+            color: var(--vscode-blue);
+            font-weight: bold;
+            position: absolute;
+            left: -15px;
+        }
+
+        .code-header {
+            background: #2d2d2d;
+            padding: 8px 15px;
+            border-radius: 8px 8px 0 0;
+            border-bottom: 1px solid var(--vscode-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .code-header span {
+            color: var(--vscode-gray);
+            font-size: 0.9em;
+        }
+
+        .copy-button {
+            background: #2d2d2d;
+            border: 1px solid var(--vscode-border);
+            color: var(--vscode-text);
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+
+        .copy-button:hover {
+            background: #3d3d3d;
+        }
+
+        .emoji {
+            font-size: 1.2em;
+            margin-right: 8px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        /* Syntax highlighting overrides */
+        .hljs-keyword {
+            color: var(--vscode-blue) !important;
+        }
+
+        .hljs-string {
+            color: var(--vscode-orange) !important;
+        }
+
+        .hljs-comment {
+            color: var(--vscode-green) !important;
+        }
+
+        .hljs-number {
+            color: var(--vscode-purple) !important;
+        }
+
+        .hljs-function {
+            color: var(--vscode-yellow) !important;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            pre {
+                overflow-x: auto;
+            }
+
+            .section {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Binary Search Patterns - Visual Guide</h1>
+
+    <div class="section">
+        <h2>🎯 Binary Search Identification Guide</h2>
+        
+        <div class="pattern-box">
+            <h3>🔍 When to Use Binary Search</h3>
+            <div class="important-note">
+                <h4>Key Indicators:</h4>
+                <ul>
+                    <li><strong>Sorted Data:</strong> When the input array is sorted or can be sorted</li>
+                    <li><strong>Search Space Reduction:</strong> When you can eliminate half of the search space in each step</li>
+                    <li><strong>O(log n) Requirement:</strong> When the problem asks for logarithmic time complexity</li>
+                    <li><strong>Monotonic Function:</strong> When the answer follows a monotonic pattern (increasing or decreasing)</li>
+                </ul>
+            </div>
+
+            <div class="visual-example">
+                <h4>Common Problem Types:</h4>
+                <ul>
+                    <li>Finding a specific value in a sorted array</li>
+                    <li>Finding the first/last occurrence of an element</li>
+                    <li>Finding the minimum/maximum value in a rotated array</li>
+                    <li>Finding the peak element in a mountain array</li>
+                    <li>Finding the median of two sorted arrays</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="pattern-box">
+            <h3>🎯 Problem-Solving Strategy</h3>
+            <div class="success-note">
+                <h4>Step-by-Step Approach:</h4>
+                <ol>
+                    <li><strong>Identify the Search Space:</strong>
+                        <ul>
+                            <li>What are the possible values for the answer?</li>
+                            <li>What are the minimum and maximum possible values?</li>
+                        </ul>
+                    </li>
+                    <li><strong>Define the Condition:</strong>
+                        <ul>
+                            <li>What condition determines if we should go left or right?</li>
+                            <li>Is the condition monotonic (always increasing or decreasing)?</li>
+                        </ul>
+                    </li>
+                    <li><strong>Choose the Binary Search Type:</strong>
+                        <ul>
+                            <li>Standard binary search for exact matches</li>
+                            <li>Leftmost binary search for first occurrence</li>
+                            <li>Rightmost binary search for last occurrence</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="pattern-box">
+            <h3>⚠️ Common Pitfalls & Solutions</h3>
+            <div class="warning-note">
+                <h4>Watch Out For:</h4>
+                <ul>
+                    <li><strong>Integer Overflow:</strong>
+                        <div class="visual-example">
+                            // Wrong
+                            int mid = (left + right) / 2;
+                            
+                            // Correct
+                            int mid = left + (right - left) / 2;
+                        </div>
+                    </li>
+                    <li><strong>Infinite Loops:</strong>
+                        <div class="visual-example">
+                            // Wrong
+                            while (left < right) {
+                                if (condition) left = mid;
+                                else right = mid;
+                            }
+                            
+                            // Correct
+                            while (left < right) {
+                                if (condition) left = mid + 1;
+                                else right = mid;
+                            }
+                        </div>
+                    </li>
+                    <li><strong>Off-by-One Errors:</strong>
+                        <div class="visual-example">
+                            // Wrong
+                            return left;
+                            
+                            // Correct
+                            return left - 1; // or left, depending on the problem
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="pattern-box">
+            <h3>🎨 Binary Search Templates</h3>
+            <div class="important-note">
+                <h4>1. Standard Binary Search (Exact Match):</h4>
+                <pre><code>
+int binarySearch(int[] arr, int target) {
+    int left = 0, right = arr.length - 1;
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+        if (arr[mid] == target) return mid;
+        if (arr[mid] < target) left = mid + 1;
+        else right = mid - 1;
+    }
+    return -1;
+}</code></pre>
+            </div>
+
+            <div class="important-note">
+                <h4>2. Leftmost Binary Search (First Occurrence):</h4>
+                <pre><code>
+int leftmostBinarySearch(int[] arr, int target) {
+    int left = 0, right = arr.length;
+    while (left < right) {
+        int mid = left + (right - left) / 2;
+        if (arr[mid] < target) left = mid + 1;
+        else right = mid;
+    }
+    return left;
+}</code></pre>
+            </div>
+
+            <div class="important-note">
+                <h4>3. Rightmost Binary Search (Last Occurrence):</h4>
+                <pre><code>
+int rightmostBinarySearch(int[] arr, int target) {
+    int left = 0, right = arr.length;
+    while (left < right) {
+        int mid = left + (right - left) / 2;
+        if (arr[mid] <= target) left = mid + 1;
+        else right = mid;
+    }
+    return left - 1;
+}</code></pre>
+            </div>
+        </div>
+
+        <div class="pattern-box">
+            <h3>🔑 Key Decision Points</h3>
+            <div class="success-note">
+                <h4>When to Use Each Template:</h4>
+                <ul>
+                    <li><strong>Standard Binary Search:</strong>
+                        <ul>
+                            <li>When you need to find an exact match</li>
+                            <li>When the array is strictly sorted</li>
+                            <li>When you need to return -1 if not found</li>
+                        </ul>
+                    </li>
+                    <li><strong>Leftmost Binary Search:</strong>
+                        <ul>
+                            <li>When you need to find the first occurrence</li>
+                            <li>When you need to find the insertion point</li>
+                            <li>When you need to find the smallest element >= target</li>
+                        </ul>
+                    </li>
+                    <li><strong>Rightmost Binary Search:</strong>
+                        <ul>
+                            <li>When you need to find the last occurrence</li>
+                            <li>When you need to find the largest element <= target</li>
+                            <li>When you need to find the number of elements <= target</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="important-note">
+        <h3>📚 Quick Reference Guide</h3>
+        <p>This cheat sheet covers essential binary search patterns with detailed explanations, code examples, and common pitfalls. Each pattern includes:</p>
+        <ul>
+            <li>Complete implementation with comments</li>
+            <li>Time and space complexity analysis</li>
+            <li>Key insights and common patterns</li>
+            <li>Edge cases and handling strategies</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>1. Classic Binary Search (Exact Match)</h2>
+        <p>Used when you want to find a specific target value in a sorted array.</p>
+        <pre><code>
+int binarySearch(int[] arr, int target) {
+    int left = 0, right = arr.length - 1;
+    while (left <= right) {
+        int mid = left + (right - left) / 2; <span class="comment">// Prevents overflow</span>
+        if (arr[mid] == target)
+            return mid; <span class="highlight">// Found target</span>
+        else if (arr[mid] &lt; target)
+            left = mid + 1; <span class="highlight">// Discard left half</span>
+        else
+            right = mid - 1; <span class="highlight">// Discard right half</span>
+    }
+    return -1; <span class="highlight">// Not found</span>
+}
+        </code></pre>
+    </div>
+
+    <div class="section">
+        <h2>2. Lower Bound (First Occurrence of Target or First ≥ Target)</h2>
+        <p>Useful for finding the left boundary (like insertion point).</p>
+        <pre><code>
+int lowerBound(int[] arr, int target) {
+    int left = 0, right = arr.length;
+    while (left &lt; right) {
+        int mid = left + (right - left) / 2;
+        if (arr[mid] &lt; target)
+            left = mid + 1; <span class="highlight">// Move right if mid is too small</span>
+        else
+            right = mid; <span class="highlight">// Could be the answer, move left</span>
+    }
+    return left; <span class="highlight">// Position to insert target</span>
+}
+        </code></pre>
+    </div>
+
+    <div class="section">
+        <h2>3. Upper Bound (First Element &gt; Target)</h2>
+        <p>Helps in finding strict boundaries.</p>
+        <pre><code>
+int upperBound(int[] arr, int target) {
+    int left = 0, right = arr.length;
+    while (left &lt; right) {
+        int mid = left + (right - left) / 2;
+        if (arr[mid] &lt;= target)
+            left = mid + 1;
+        else
+            right = mid;
+    }
+    return left; <span class="highlight">// First index where arr[i] > target</span>
+}
+        </code></pre>
+    </div>
+
+    <div class="section">
+        <h2>4. Binary Search on Answer (Search Space)</h2>
+        <p>Used in problems where we don't search in array directly, but rather search for the minimum or maximum answer in a range.</p>
+        <pre><code>
+int binarySearchAnswer(int low, int high) {
+    while (low &lt;= high) {
+        int mid = low + (high - low) / 2;
+        if (condition(mid))
+            high = mid - 1; <span class="highlight">// Try to minimize</span>
+        else
+            low = mid + 1;
+    }
+    return low; <span class="highlight">// Smallest value satisfying the condition</span>
+}
+        </code></pre>
+    </div>
+
+    <div class="section">
+        <h2>5. Binary Search in Rotated Sorted Array</h2>
+        <div class="pattern-box">
+            <h3>🔍 Pattern Overview</h3>
+            <p>A rotated sorted array is a sorted array that has been rotated at some pivot point. For example:</p>
+            <div class="visual-example">
+                Original: [1, 2, 3, 4, 5, 6, 7]<br>
+                Rotated: [4, 5, 6, 7, 1, 2, 3]
+            </div>
+            <div class="complexity">
+                Time Complexity: O(log n)<br>
+                Space Complexity: O(1)
+            </div>
+        </div>
+
+        <div class="important-note">
+            <h3>🎯 Key Insight</h3>
+            <p>In a rotated sorted array, at least one half (left or right of mid) will always be sorted. This is the fundamental property we use to perform binary search.</p>
+        </div>
+
+        <pre><code>
+int findInRotatedArray(int[] arr, int target) {
+    int left = 0, right = arr.length - 1;
+    
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+        
+        if (arr[mid] == target) return mid;
+        
+        // Check if left half is sorted
+        if (arr[left] <= arr[mid]) {
+            if (target >= arr[left] && target < arr[mid])
+                right = mid - 1; <span class="highlight">// Search in left half</span>
+            else
+                left = mid + 1; <span class="highlight">// Search in right half</span>
+        }
+        // Right half must be sorted
+        else {
+            if (target > arr[mid] && target <= arr[right])
+                left = mid + 1; <span class="highlight">// Search in right half</span>
+            else
+                right = mid - 1; <span class="highlight">// Search in left half</span>
+        }
+    }
+    return -1;
+}</code></pre>
+
+        <div class="warning-note">
+            <h3>⚠️ Common Pitfalls</h3>
+            <ul>
+                <li>Forgetting to check if one half is sorted before deciding where to search</li>
+                <li>Incorrect boundary conditions when checking if target is in sorted half</li>
+                <li>Not handling duplicate elements properly</li>
+            </ul>
+        </div>
+
+        <div class="success-note">
+            <h3>✅ Best Practices</h3>
+            <ul>
+                <li>Always check if one half is sorted before deciding search direction</li>
+                <li>Use inclusive bounds (left <= right) for exact match problems</li>
+                <li>Handle edge cases (empty array, single element) separately</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>6. Finding Minimum in Rotated Sorted Array</h2>
+        <div class="pattern-box">
+            <h3>🔍 Pattern Overview</h3>
+            <p>Finding the minimum element in a rotated sorted array is equivalent to finding the pivot point where the rotation occurred.</p>
+            <div class="visual-example">
+                Array: [4, 5, 6, 7, 1, 2, 3]<br>
+                Minimum: 1 (at index 4)
+            </div>
+            <div class="complexity">
+                Time Complexity: O(log n)<br>
+                Space Complexity: O(1)
+            </div>
+        </div>
+
+        <div class="important-note">
+            <h3>🎯 Key Insight</h3>
+            <p>Compare mid with right element to determine which half contains the minimum. If arr[mid] > arr[right], minimum must be in right half.</p>
+        </div>
+
+        <pre><code>
+int findMinInRotatedArray(int[] arr) {
+    int left = 0, right = arr.length - 1;
+    
+    while (left < right) {
+        int mid = left + (right - left) / 2;
+        
+        if (arr[mid] > arr[right])
+            left = mid + 1; <span class="highlight">// Minimum is in right half</span>
+        else
+            right = mid; <span class="highlight">// Minimum is in left half (including mid)</span>
+    }
+    return arr[left];
+}</code></pre>
+
+        <div class="warning-note">
+            <h3>⚠️ Common Pitfalls</h3>
+            <ul>
+                <li>Comparing with left element instead of right element</li>
+                <li>Using inclusive bounds when finding minimum</li>
+                <li>Not handling duplicate elements correctly</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>7. Binary Search in Mountain Array</h2>
+        <div class="pattern-box">
+            <h3>🔍 Pattern Overview</h3>
+            <p>A mountain array (or bitonic array) first increases then decreases. The search requires finding the peak first, then searching in both parts.</p>
+            <div class="visual-example">
+                Mountain Array: [1, 3, 5, 7, 6, 4, 2]<br>
+                Peak: 7 (at index 3)
+            </div>
+            <div class="complexity">
+                Time Complexity: O(log n)<br>
+                Space Complexity: O(1)
+            </div>
+        </div>
+
+        <div class="important-note">
+            <h3>🎯 Key Insight</h3>
+            <p>The search process is two-phase: first find the peak, then perform binary search in both increasing and decreasing parts.</p>
+        </div>
+
+        <pre><code>
+int findInMountainArray(int[] arr, int target) {
+    // First find the peak
+    int peak = findPeak(arr);
+    
+    // Search in increasing part
+    int leftResult = binarySearch(arr, target, 0, peak, true);
+    if (leftResult != -1) return leftResult;
+    
+    // Search in decreasing part
+    return binarySearch(arr, target, peak + 1, arr.length - 1, false);
+}
+
+int findPeak(int[] arr) {
+    int left = 0, right = arr.length - 1;
+    
+    while (left < right) {
+        int mid = left + (right - left) / 2;
+        
+        if (arr[mid] < arr[mid + 1])
+            left = mid + 1; <span class="highlight">// Peak is in right half</span>
+        else
+            right = mid; <span class="highlight">// Peak is in left half (including mid)</span>
+    }
+    return left;
+}
+
+int binarySearch(int[] arr, int target, int left, int right, boolean isAscending) {
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+        
+        if (arr[mid] == target) return mid;
+        
+        if (isAscending) {
+            if (arr[mid] < target)
+                left = mid + 1;
+            else
+                right = mid - 1;
+        } else {
+            if (arr[mid] < target)
+                right = mid - 1;
+            else
+                left = mid + 1;
+        }
+    }
+    return -1;
+}</code></pre>
+
+        <div class="warning-note">
+            <h3>⚠️ Common Pitfalls</h3>
+            <ul>
+                <li>Not handling the peak element correctly</li>
+                <li>Using same comparison logic for both increasing and decreasing parts</li>
+                <li>Incorrect boundary conditions when finding peak</li>
+            </ul>
+        </div>
+
+        <div class="success-note">
+            <h3>✅ Best Practices</h3>
+            <ul>
+                <li>Always find peak first, then search in both parts</li>
+                <li>Use different comparison logic for increasing and decreasing parts</li>
+                <li>Handle edge cases (single element, two elements) separately</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>8. Finding Peak in Mountain Array</h2>
+        <div class="pattern-box">
+            <h3>🔍 Pattern Overview</h3>
+            <p>Finding the peak in a mountain array is a crucial first step for many mountain array problems.</p>
+            <div class="visual-example">
+                Array: [1, 3, 5, 7, 6, 4, 2]<br>
+                Peak: 7 (at index 3)
+            </div>
+            <div class="complexity">
+                Time Complexity: O(log n)<br>
+                Space Complexity: O(1)
+            </div>
+        </div>
+
+        <div class="important-note">
+            <h3>🎯 Key Insight</h3>
+            <p>Compare mid with mid+1 to determine which half contains the peak. If arr[mid] < arr[mid+1], peak is in right half.</p>
+        </div>
+
+        <pre><code>
+int findPeakInMountainArray(int[] arr) {
+    int left = 0, right = arr.length - 1;
+    
+    while (left < right) {
+        int mid = left + (right - left) / 2;
+        
+        if (arr[mid] < arr[mid + 1])
+            left = mid + 1; <span class="highlight">// Peak is in right half</span>
+        else
+            right = mid; <span class="highlight">// Peak is in left half (including mid)</span>
+    }
+    return left;
+}</code></pre>
+
+        <div class="warning-note">
+            <h3>⚠️ Common Pitfalls</h3>
+            <ul>
+                <li>Comparing with previous element instead of next element</li>
+                <li>Using inclusive bounds when finding peak</li>
+                <li>Not handling edge cases properly</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🧠 Additional Tips for Rotated & Mountain Arrays</h2>
+        <div class="pattern-box">
+            <h3>🔍 Pattern-Specific Tips</h3>
+            <ul>
+                <li><strong>For Rotated Arrays:</strong>
+                    <ul>
+                        <li>Always check if one half is sorted before deciding where to search</li>
+                        <li>Be careful with duplicate elements - they can make it hard to determine which half is sorted</li>
+                        <li>For finding minimum, compare with right element instead of left</li>
+                        <li>Use inclusive bounds (left <= right) for exact match problems</li>
+                    </ul>
+                </li>
+                <li><strong>For Mountain Arrays:</strong>
+                    <ul>
+                        <li>First find the peak, then search in both parts</li>
+                        <li>Remember to use different comparison logic for increasing and decreasing parts</li>
+                        <li>For peak finding, comparing with next element is more reliable than comparing with previous</li>
+                        <li>Handle edge cases (single element, two elements) separately</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="important-note">
+            <h3>🎯 General Tips</h3>
+            <ul>
+                <li>Always verify your binary search conditions</li>
+                <li>Test with edge cases (empty array, single element, two elements)</li>
+                <li>Consider using inclusive or exclusive bounds based on the problem</li>
+                <li>Be careful with integer overflow when calculating mid</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Initialize syntax highlighting
+        document.addEventListener('DOMContentLoaded', (event) => {
+            document.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightBlock(block);
+            });
+        });
+
+        // Add copy button functionality
+        document.querySelectorAll('pre').forEach((block) => {
+            const header = document.createElement('div');
+            header.className = 'code-header';
+            header.innerHTML = `
+                <span>Java</span>
+                <button class="copy-button">Copy</button>
+            `;
+            block.parentNode.insertBefore(header, block);
+
+            const button = header.querySelector('.copy-button');
+            button.addEventListener('click', () => {
+                const code = block.querySelector('code').innerText;
+                navigator.clipboard.writeText(code).then(() => {
+                    button.textContent = 'Copied!';
+                    setTimeout(() => {
+                        button.textContent = 'Copy';
+                    }, 2000);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
