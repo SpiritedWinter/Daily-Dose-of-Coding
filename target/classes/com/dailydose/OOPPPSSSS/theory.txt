@@ -1,0 +1,8 @@
+class is like logical construct-> defines the skeletal of the object you want to create
+for example Human is a class and-> jassi is object/ instance of that Human class
+
+object: physical reality  which actually occupies space in the memory , 
+while the classes are only the rule of how the data structure will be 
+
+when you wwrite a new ClassName();
+the new keyword dynamically allocates the memory and return the reference to it to the variable stored in stack
