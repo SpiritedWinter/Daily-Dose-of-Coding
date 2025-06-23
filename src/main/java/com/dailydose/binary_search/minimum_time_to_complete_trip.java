@@ -2,23 +2,19 @@ package com.dailydose.binary_search;
 import java.util.*;
 public class minimum_time_to_complete_trip {
     public static void main(String[] args){
-        int[] time=new int[]{10000};
+        int[] time=new int[]{1,2,3};
         
-        long minDays=minimumTime(time,10000000);
+        long minDays=minimumTime(time,5);
         System.out.println(minDays);
     }
 
-    public static long minimumTime(int[] time, int totalTrips){
-        // this problem is pretty stright forward becausewe are given search space that
-        // min time complete total trips could be max of that array
-        // and the max time could be total trip * max of that array
-        // so we kno the search space now
+    private static long minimumTime(int[] time,int totalTrips){
         long start=1;
         long end= (long) Arrays.stream(time).min().getAsInt() * totalTrips;
 
-        while( start<end){
+        while(start<end){
             long mid=start+(end-start)/2;
-            if(isFeasable(time, totalTrips, mid)){
+            if(isFeasible(time,totalTrips,mid)){
                 end=mid;
             }
             else{
@@ -26,14 +22,21 @@ public class minimum_time_to_complete_trip {
             }
         }
 
-        return (long)start;
+        return start;
     }
 
-    public static boolean isFeasable(int[] time,int totaltrips, long thisTime){
-        long trips = 0;
-        for(int bus : time){
-            trips += thisTime / bus;  // much faster than while loop
+    private static boolean isFeasible(int[] time,int totalTrips,long minDays){
+        int trips=0;
+        for(int i=0;i<time.length;i++){
+            trips+=minDays/time[i];
+            if(trips>=totalTrips){
+                return true;
+            }
         }
-        return trips >= totaltrips;
+
+        return false;
     }
+
+
+
 }
